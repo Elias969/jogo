@@ -1,0 +1,4 @@
+import type { Rect, Vector2D } from "./types";
+export function intersects(a: Rect, b: Rect): boolean { return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y; }
+export function moveWithAabb(position: Vector2D, size: Vector2D, delta: Vector2D, solids: Rect[]): Vector2D { let next = { x: position.x + delta.x, y: position.y }; if (!solids.some(s => intersects({ x: next.x, y: next.y, width: size.x, height: size.y }, s))) position.x = next.x; next = { x: position.x, y: position.y + delta.y }; if (!solids.some(s => intersects({ x: next.x, y: next.y, width: size.x, height: size.y }, s))) position.y = next.y; return position; }
+export function distanceTo(a: Rect, b: Rect): number { const ax = a.x + a.width / 2; const ay = a.y + a.height / 2; const bx = b.x + b.width / 2; const by = b.y + b.height / 2; return Math.hypot(ax - bx, ay - by); }
